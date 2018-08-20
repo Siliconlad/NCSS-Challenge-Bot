@@ -34,3 +34,19 @@ def is_higher(card1, card2):
         card2_suit_rank = rank_score[card2[0]]
 
         return True if card1_suit_rank > card2_suit_rank else False
+
+def sort(hand):
+    '''
+    The function returns a sorted list of cards.
+
+    The function sorts a list of single cards and returns them in ascending order. The parameter of the function must be a list of strings. It should not contain any lists or other data structures.
+
+    Keyword arguements:
+    hand -- a list of single cards
+
+    Return type:
+    sorted_list -- a list of sorted cards in ascending order
+
+    Function assumptions:
+    -- The hand is a list of strings
+    '''

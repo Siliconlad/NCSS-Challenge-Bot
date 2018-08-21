@@ -93,7 +93,7 @@ def playable(hand, play_to_beat):
 
     return []
 
-def highest_cards(hand, round_history):
+def highest(hand, round_history):
     '''
     Returns a list of all the highest cards in the game from hand.
 
@@ -109,3 +109,18 @@ def highest_cards(hand, round_history):
     Function assumptions:
     -- the function assumes hand is sorted
     '''
+
+    deck = ['3D', '3C', '3H', '3S', '4D', '4C', '4H', '4S', '5D', '5C', '5H', '5S', '6D', '6C', '6H', '6S', '7D', '7C', '7H', '7S', '8D', '8C', '8H', '8S', '9D', '9C', '9H', '9S', '0D', '0C', '0H', '0S', 'JD', 'JC', 'JH', 'JS', 'QD', 'QC', 'QH', 'QS', 'KD', 'KC', 'KH', 'KS', 'AD', 'AC', 'AH', 'AS', '2D', '2C', '2H', '2S']
+
+    # Removes all cards from deck that have already been played
+    for trick_history in round_history:
+        for play in trick_history:
+            card = play[1]
+            if card in deck:
+                deck.remove(card)
+
+    highest_cards = []
+    while deck[-1] in hand:
+        highest_cards.append(deck.pop(-1))
+    
+    return sort(highest_cards)

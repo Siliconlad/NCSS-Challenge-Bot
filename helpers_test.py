@@ -1,7 +1,5 @@
 import unittest
-from helpers import is_higher
-from helpers import sort
-from helpers import playable
+from helpers import *
 
 class Test(unittest.TestCase):
     def test_is_higher(self):
@@ -20,6 +18,15 @@ class Test(unittest.TestCase):
         self.assertEqual(['2H'], playable(hand, ['2C']) )
         self.assertEqual( [], playable(hand, ['2S']) )
         self.assertEqual( hand, playable(hand, []) )
+
+    def test_highest(self):
+        hand = ['JD', '2H', '2S']
+        round_history = [[[3, ['3D']], [0, ['6C']], [1, []], [2, ['6H']], [3, ['0H']]]]
+        self.assertEqual(['2H', '2S'], highest(hand, round_history))
+
+        hand = ['JD']
+        round_history = [[]]
+        self.assertEqual([], highest(hand, round_history))
 
 if __name__ == '__main__':
     unittest.main()

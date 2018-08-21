@@ -30,8 +30,8 @@ def is_higher(card1, card2):
         return True
     # Compare suits if ranks are equal
     else:
-        card1_suit_rank = rank_score[card1[0]]
-        card2_suit_rank = rank_score[card2[0]]
+        card1_suit_rank = suit_score[card1[1]]
+        card2_suit_rank = suit_score[card2[1]]
 
         return True if card1_suit_rank > card2_suit_rank else False
 
@@ -50,3 +50,10 @@ def sort(hand):
     Function assumptions:
     -- The hand is a list of strings
     '''
+
+    # Implements a bubble sort algorithm for sorting the hand
+    for index in range(0, len(hand) - 1):
+        if is_higher(hand[index], hand[index + 1]):
+            temp = hand[index]
+            hand[index] = hand[index+1]
+            hand[index+1] = temp

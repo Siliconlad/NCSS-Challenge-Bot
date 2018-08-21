@@ -52,8 +52,15 @@ def sort(hand):
     '''
 
     # Implements a bubble sort algorithm for sorting the hand
-    for index in range(0, len(hand) - 1):
-        if is_higher(hand[index], hand[index + 1]):
-            temp = hand[index]
-            hand[index] = hand[index+1]
-            hand[index+1] = temp
+    is_sorted = False
+    while not is_sorted:
+        # Assume list is sorted
+        is_sorted = True
+        for index in range(0, len(hand) - 1):
+            if is_higher(hand[index], hand[index + 1]):
+                temp = hand[index]
+                hand[index] = hand[index+1]
+                hand[index+1] = temp
+                is_sorted = False
+
+    return hand

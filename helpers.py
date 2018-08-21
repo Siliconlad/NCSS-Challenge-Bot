@@ -64,3 +64,20 @@ def sort(hand):
                 is_sorted = False
 
     return hand
+
+def playable(hand, play_to_beat):
+    '''
+    Returns a list of all the cards in the hand greater than the card to beat.
+
+    The function takes in two parameters, hand and play_to_beat. The function then returns all the cards greater than the play_to_beat in the hand of the player in a list.
+
+    Keyword arguements:
+    hand -- a list of single cards
+    play_to_beat = a single card as a string
+
+    Return type:
+    playable_cards -- a list of all the cards that will beat the play_to_beat card
+
+    Function assumptions:
+    -- play_to_beat is not a list but a string
+    '''

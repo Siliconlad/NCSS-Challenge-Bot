@@ -5,8 +5,8 @@ def is_higher(card1, card2):
     The function compares two valid cards and returns true if card1 is ranked higher and false if it does not. Does not assume that the cards must be from the same deck. If two equivalent cards are passed then the function will return False because a card is not ranked higher than itself.
 
     Keywords arguements:
-    card1 -- first card of type string (required)
-    card2 -- second card of type string (required)
+    card1 -- first card of type string (required), cannot be empty
+    card2 -- second card of type string (required), cannot be empty
 
     Return type:
     True -- when card1 is ranked higher than card2
@@ -82,6 +82,9 @@ def playable(hand, play_to_beat):
     -- play_to_beat is a list with one card
     -- the hand is sorted
     '''
+    if len(play_to_beat) == 0:
+        return hand
+    
     card_to_beat = play_to_beat[0]
     for card in hand:
         if is_higher(card, card_to_beat):

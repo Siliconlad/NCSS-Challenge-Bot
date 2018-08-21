@@ -69,15 +69,23 @@ def playable(hand, play_to_beat):
     '''
     Returns a list of all the cards in the hand greater than the card to beat.
 
-    The function takes in two parameters, hand and play_to_beat. The function then returns all the cards greater than the play_to_beat in the hand of the player in a list.
+    The function takes in two parameters, hand and play_to_beat. The function then returns all the cards greater than the play_to_beat in the hand of the player in a list. The function will return an empty list if no cards in hand are greater than the play_to_beat.
 
     Keyword arguements:
     hand -- a list of single cards
-    play_to_beat = a single card as a string
+    play_to_beat = a list containing one card
 
     Return type:
     playable_cards -- a list of all the cards that will beat the play_to_beat card
 
     Function assumptions:
-    -- play_to_beat is not a list but a string
+    -- play_to_beat is a list with one card
+    -- the hand is sorted
     '''
+    card_to_beat = play_to_beat[0]
+    for card in hand:
+        if is_higher(card, card_to_beat):
+            index = hand.index(card)
+            return hand[index:]
+
+    return []

@@ -19,6 +19,7 @@ class Test(unittest.TestCase):
         self.assertEqual(['7C', '8S', 'JD', 'JC', 'JS', 'KD', 'KS', 'AS', '2D', '2H'], playable(hand, ['7D']))
         self.assertEqual(['2H'], playable(hand, ['2C']) )
         self.assertEqual( [], playable(hand, ['2S']) )
+        self.assertEqual( hand, playable(hand, []) )
 
 if __name__ == '__main__':
     unittest.main()

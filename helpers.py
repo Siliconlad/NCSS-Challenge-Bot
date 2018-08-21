@@ -82,6 +82,9 @@ def playable(hand, play_to_beat):
     -- play_to_beat is a list with one card
     -- the hand is sorted
     '''
+    if len(play_to_beat) == 0:
+        return hand
+    
     card_to_beat = play_to_beat[0]
     for card in hand:
         if is_higher(card, card_to_beat):

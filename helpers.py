@@ -92,3 +92,20 @@ def playable(hand, play_to_beat):
             return hand[index:]
 
     return []
+
+def highest_cards(hand, round_history):
+    '''
+    Returns a list of all the highest cards in the game from hand.
+
+    The function loops through the round_history removes all cards from a list of the entire deck of cards. Then the functions looks to see if the highest remaining cards in the game are in the player's hand
+
+    Keyword arguements:
+    hand -- a sorted list of all the cards in the players hand
+    round_history -- a list of all the plays in the current round, organised into trick lists which contain play lists. A play list is a list with the player number and card played by that player.
+
+    Return type:
+    list
+
+    Function assumptions:
+    -- the function assumes hand is sorted
+    '''

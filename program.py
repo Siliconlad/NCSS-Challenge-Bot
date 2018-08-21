@@ -13,12 +13,18 @@ def play(hand, is_start_of_round, play_to_beat, round_history, player_no, hand_s
     if len(playable_cards) == 0:
         return []
 
-    # Play highest card when someone has one card left, to get rid of as many 
-    # cards as possible. If I am the one with one card then this simply plays 
-    # the remaining card.
+    highest_cards = highest(sorted_hand, round_history)
+
+    # If the player has only one card which is not the highest card in the game
+    # and the rest are the highest cards in the game, then play highest cards
+    if len(highest_cards) != 0 and len(highest_cards) == len(sorted_hand) - 1:
+        return [highest_cards[0]]
+
+    # Play highest card when someone has one card left,
+    # to get rid of as many cards as possible. 
+    # If I am the one with one card then this simply plays the remaining card.
     if 1 in hand_sizes:
         return [playable_cards[-1]]
-
 
     return [playable_cards[0]]
 

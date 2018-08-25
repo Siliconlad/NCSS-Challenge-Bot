@@ -28,5 +28,9 @@ class Test(unittest.TestCase):
         round_history = [[]]
         self.assertEqual([], highest(hand, round_history))
 
+        hand = ['4D', '2H']
+        round_history = [[ [0, ['3D']], [1, ['3C']], [2, []], [3, ['4S']], [0, ['7D']], [1, ['9C']], [2, []], [3, ['JD']], [0, ['2C']], [1, ['2S']] ] , [ [1, ['3S']], [2, []], [3, []] ]]
+        self.assertEqual(['2H'], highest(hand, round_history))
+
 if __name__ == '__main__':
     unittest.main()

@@ -116,8 +116,10 @@ def highest(hand, round_history):
     for trick_history in round_history:
         for play in trick_history:
             card = play[1]
-            if card in deck:
-                deck.remove(card)
+            if len(card) == 0:
+                pass
+            elif card[0] in deck:
+                deck.remove(card[0])
 
     highest_cards = []
     while deck[-1] in hand:

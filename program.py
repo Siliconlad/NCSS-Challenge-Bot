@@ -30,5 +30,8 @@ def play(hand, is_start_of_round, play_to_beat, round_history, player_no, hand_s
     if 1 in hand_sizes:
         return [playable_cards[-1]]
     
-    return [playable_cards[0]]
-
+    # Keep highest card
+    if len(playable_cards) > 1:
+        return [playable_cards[0]]
+    else:
+        return []

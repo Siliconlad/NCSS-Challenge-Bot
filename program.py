@@ -9,9 +9,11 @@ def play(hand, is_start_of_round, play_to_beat, round_history, player_no, hand_s
     if is_start_of_round:
         return ['3D']
 
+    # Obtains a list of playable cards to work with
     playable_cards = playable(sorted_hand, play_to_beat)
-    # Return nothing when no cards available to play
-    if len(playable_cards) == 0:
+    size_of_playable = len(playable_cards)
+    # Allows rest of program to assume there is at least one card to play
+    if size_of_playable == 0:
         return []
 
     highest_cards = highest(sorted_hand, round_history)
@@ -23,11 +25,10 @@ def play(hand, is_start_of_round, play_to_beat, round_history, player_no, hand_s
             if len(playable_highest) != 0:
                 return [playable_highest[0]]
 
-    # Play highest card when someone has one card left,
-    # to get rid of as many cards as possible. 
-    # If I am the one with one card then this simply plays the remaining card.
+    # If someone has one card left play the highest card to delay their win
+    # If I have one card left play it
     if 1 in hand_sizes:
         return [playable_cards[-1]]
-
+    
     return [playable_cards[0]]
 

@@ -126,3 +126,23 @@ def highest(hand, round_history):
         highest_cards.append(deck.pop(-1))
     
     return sort(highest_cards)
+
+def is_pair(card1, card2):
+    '''
+    Compares two cards to see if they form a pair or not.
+
+    Takes two cards and compares the ranks to see if they match. If they do True is returned, if not False. 
+
+    Inputs:
+    -- card1 - string
+    -- card2 - string
+
+    Output:
+    -- Boolean (True/False)
+    '''
+
+    def is_pair(card1, card2):
+        if (card1[0] == card2[0]):
+            return True
+        else:
+            return False

@@ -49,5 +49,25 @@ class Test(unittest.TestCase):
         self.assertEqual([['3D', '3S']], sort_pairs([['3D', '3S']]))
         self.assertEqual([['3D', '3S'], ['2D', '2S']], sort_pairs([['2D', '2S'], ['3D', '3S']]))
         self.assertEqual([['2D', '2C'], ['2H', '2S']], sort_pairs([['2H', '2S'], ['2D', '2C']]))
+
+    def test_is_triple(self):
+        self.assertEqual(True, is_triple('3D', '3C', '3S'))
+        self.assertEqual(True, is_triple('3H', '3S', '3D'))
+        self.assertEqual(False, is_triple('3H', '2S', '3D'))
+
+    def test_is_higher_triple(self):
+        self.assertEqual(True, is_higher_triple(['8D', '8C', '8S'], ['3D', '3C', '3S']))
+        self.assertEqual(False, is_higher_triple(['4D', '4C', '4S'], ['2D', '2C', '2S']))
+        self.assertEqual(True, is_higher_triple(['8S', '8D', '8H'], ['3C', '3D', '3S']))
+
+        # Two triples with the same rank cannot exist hence must return False
+        self.assertEqual(False, is_higher_triple(['8S', '8D', '8H'], ['8C', '8D', '8S']))
+    def test_all_triples(self):
+        hand = ['3D', '3C', '3S', '4D', '8D', '8S', '0J', '2S']
+        self.assertEqual([['3D', '3C', '3S']], all_triples(hand))
+
+    def test_sort_triples(self):
+        self.assertEqual([['3D', '3C', '3S']], sort_triples([['3D', '3C', '3S']]))
+        self.assertEqual([['3D', '3C', '3S'], ['4D', '4H', '4S']], sort_triples([['4D', '4H', '4S'], ['3D', '3C', '3S']]))
 if __name__ == '__main__':
     unittest.main()

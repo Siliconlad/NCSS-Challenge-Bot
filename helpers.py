@@ -1,3 +1,5 @@
+import itertools
+
 SUIT_SCORE = {"D":0, "C":1, "H":2, "S":3}
 RANK_SCORE = {"3":0, "4":1, "5":2, "6":3, "7":4, "8":5, "9":6, "0": 7, "J":8, "Q":9, "K":10, "A":11, "2":12}
 
@@ -223,5 +225,104 @@ def sort_pairs(pairs):
                 # Swap
                 pairs[i], pairs[i+1] = pairs[i+1], pairs[i]
                 is_sorted = False
-            counter += 1
+        counter += 1
     return pairs
+
+def is_triple(card1, card2, card3):
+    '''
+    Compares three cards to see if they form a triple or not.
+
+    Takes three cards and compares the ranks (number value) to see if they match. If they do True is returned, if not False. 
+
+    Keyword arguements:
+    card1 -- string
+    card2 -- string
+    card3 -- string
+
+    Return Type:
+    -- Boolean (True/False)
+
+    '''
+
+    if (card1[0] == card2[0] == card3[0]):
+        return True
+    else:
+        return False
+
+def is_higher_triple(triple1, triple2):
+    '''
+    Compares a pair of triples to find which triple is ranked higher.
+
+    The function compares triple1 and triple2. If triple1 is ranked higher then the function returns True if not then False. Order of the parameters matter when comparing the two triples.
+
+    Keyword arguements:
+    triple1, triple2, triple3 -- list of three cards i.e. ['3D', '3C', '3S']
+
+    Return type:
+    -- Boolean (True/False)
+
+    Assumptions:
+    -- Assumes pair1 and pair2 are valid triples
+    '''
+
+    # Sort the pairs
+    triple1 = sort(triple1)
+    triple2 = sort(triple2)
+
+    triple1_rank = triple1[2][0]
+    triple2_rank = triple2[2][0]
+    triple1_highest_suit = triple1[2][1]
+    triple2_highest_suit = triple2[2][1]
+
+    if RANK_SCORE[triple1_rank] < RANK_SCORE[triple2_rank]:
+        return False
+    elif RANK_SCORE[triple1_rank] > RANK_SCORE[triple2_rank]:
+        return True
+    else:
+        return False
+
+def all_triples(hand):
+    '''
+    Returns a list of all possible triples from a given hand.
+
+    Given a list of cards, the program will go through every combination of a group of three cards, check that they are a valid triple then add them to a list which is returned.
+
+    Keyword arguements:
+    hand -- list of cards
+
+    Return type:
+    -- list of all possible triples from the given hand
+    '''
+
+    triples = []
+    for triple in itertools.combinations(hand, 3):
+        if is_triple(triple[0], triple[1], triple[2]):
+            triples.append(list(triple))
+    return triples
+
+def sort_triples(triples):
+    '''
+    Returns a sorted list of triples.
+
+    The function accepts a list of triples of the format [[triple_1], [triple_2]] and sorts the triples and returns the list. The sorting algorithm uses a bubble sort.
+
+    Keyword Arguements:
+    triples -- a list of triples
+
+    Return type:
+    list of lists -- returns a list of all triples but sorted
+
+    '''
+
+    is_sorted = False
+    while not is_sorted:
+        is_sorted = True
+        counter = 1
+        size_of_triples = len(triples)
+        for i in range(size_of_triples - counter):
+            if is_higher_triple(triples[i], triples[i+1]):
+                # Swap
+                triples[i], triples[i+1] = triples[i+1], triples[i]
+                is_sorted = False
+        counter += 1
+    return triples

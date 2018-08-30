@@ -32,5 +32,14 @@ class Test(unittest.TestCase):
         round_history = [[ [0, ['3D']], [1, ['3C']], [2, []], [3, ['4S']], [0, ['7D']], [1, ['9C']], [2, []], [3, ['JD']], [0, ['2C']], [1, ['2S']] ] , [ [1, ['3S']], [2, []], [3, []] ]]
         self.assertEqual(['2H'], highest(hand, round_history))
 
+    def test_is_pair(self):
+        self.assertEqual(True, is_pair('3D', '3S'))
+        self.assertEqual(False, is_pair('JD', 'QD'))
+
+    def test_is_higher_pair(self):
+        self.assertEqual(True, is_higher_pair(['JD', 'JS'], ['0H', '0S']))
+        self.assertEqual(True, is_higher_pair(['JD', 'JS'], ['JC', 'JC']))
+        self.assertEqual(False, is_higher_pair(['3D', '3S'], ['2C', '2C']))
+
 if __name__ == '__main__':
     unittest.main()

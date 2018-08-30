@@ -3,6 +3,22 @@ from program import play
 
 class Test(unittest.TestCase):
     def test_play(self):
+        # Starts round with multiple cards
+        hand = ['3D', '3C', '3H', '3S', '4D', '7S', '0D']
+        self.assertEqual(['3D', '3C', '3H'], play(hand, True, [], [[]], 0, [9, 9, 10, 10], [0, 0, 0, 0], 0))
+
+        hand = ['3D', '3C', '3S', '4D', '7S', '0D']
+        self.assertEqual(['3D', '3C', '3S'], play(hand, True, [], [[]], 0, [9, 9, 10, 10], [0, 0, 0, 0], 0))
+
+        hand = ['3D', '3S', '4D', '7S', '0D']
+        self.assertEqual(['3D', '3S'], play(hand, True, [], [[]], 0, [9, 9, 10, 10], [0, 0, 0, 0], 0))
+
+        hand = ['3D', '3S', '4D', '7S', '0D']
+        self.assertEqual(['3D', '3S'], play(hand, True, [], [[]], 0, [9, 9, 10, 10], [0, 0, 0, 0], 0))
+
+        hand = ['3D', '4D', '7S', '0D']
+        self.assertEqual(['3D'], play(hand, True, [], [[]], 0, [9, 9, 10, 10], [0, 0, 0, 0], 0))
+
         hand = ['7H', '8D', '8S', '9S', '0S', 'JD', 'JH', 'JS', 'KH']
         
         # Basic play lowest possible card tests

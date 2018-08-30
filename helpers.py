@@ -146,3 +146,37 @@ def is_pair(card1, card2):
             return True
         else:
             return False
+
+def is_higher_pair(pair1, pair2):
+    '''
+    Compares a pair of pairs to find which pair is ranked higher.
+
+    The function compares pair1 and pair2. If pair1 is ranked higher then the function returns True if not then False. Order of the parameters matter when comparing two pairs.
+
+    Inputs:
+    -- pair1, pair2 - list of two cards i.e. ['3D', '3S']
+
+    Outputs:
+    -- Boolean (True/False)
+
+    Assumptions:
+    -- Assumes pair1 and pair2 are valid pairs
+    -- 
+
+    '''
+
+    suit_score = {"D":0, "C":1, "H":2, "S":3}
+    ranks_score = {"3":0, "4":1, "5":2, "6":3, "7":4, "8":5, "9":6, "0": 7, "J":8, "Q":9, "K":10, "A":11, "2":12}
+    if ranks_score[pair1[0][0]] < ranks_score[pair2[0][0]]:
+        return False
+    elif ranks_score[pair1[0][0]] > ranks_score[pair2[0][0]]:
+        return True
+    else:
+        if suit_score[pair1[0][1]] == 3:
+            return True
+        elif suit_score[pair1[1][1]] == 3:
+            return True
+        elif suit_score[pair2[0][1]] == 3:
+            return False
+        elif suit_score[pair2[1][1]] == 3:
+            return False

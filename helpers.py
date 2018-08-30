@@ -159,8 +159,11 @@ def is_higher_pair(pair1, pair2):
 
     Assumptions:
     -- Assumes pair1 and pair2 are valid pairs
-    -- Assumes pair1 and pair2 sorted from least to greatest i.e. ['3D', '3S'] and NOT ['3S', '3D']
     '''
+
+    # Sort the pairs
+    pair1 = sort(pair1)
+    pair2 = sort(pair2)
 
     pair1_rank = pair1[1][0]
     pair2_rank = pair2[1][0]

@@ -41,5 +41,9 @@ class Test(unittest.TestCase):
         self.assertEqual(True, is_higher_pair(['JD', 'JS'], ['JC', 'JC']))
         self.assertEqual(False, is_higher_pair(['3D', '3S'], ['2C', '2C']))
 
+    def test_sort_pairs(self):
+        self.assertEqual([['3D', '3S']], sort_pairs([['3D', '3S']]))
+        self.assertEqual([['3D', '3S'], ['2D', '2S']], sort_pairs([['2D', '2S'], ['3D', '3S']]))
+        self.assertEqual([['2D', '2C'], ['2H', '2S']], sort_pairs([['2H', '2S'], ['2D', '2C']]))
 if __name__ == '__main__':
     unittest.main()

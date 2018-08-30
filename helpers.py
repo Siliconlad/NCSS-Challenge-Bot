@@ -195,3 +195,30 @@ def all_pairs(hand):
         if is_pair(pair[0], pair[1]):
             pairs.append(list(pair))
     return pairs
+
+def sort_pairs(pairs):
+    '''
+    Returns a sorted list of pairs.
+
+    The function accepts a list of pairs of the format [[pair_1], [pair_2]] and sorts the pairs and returns the list. The sorting algorithm uses a bubble sort.
+
+    Keyword Arguements:
+    pairs -- a list of pairs
+
+    Return type:
+    list of lists -- returns a list of all pairs in pairs but sorted
+
+    '''
+
+    is_sorted = False
+    while not is_sorted:
+        is_sorted = True
+        counter = 1
+        size_of_pairs = len(pairs)
+        for i in range(size_of_pairs - counter):
+            if is_higher_pair(pairs[i], pairs[i+1]):
+                # Swap
+                pairs[i], pairs[i+1] = pairs[i+1], pairs[i]
+                is_sorted = False
+            counter += 1
+    return pairs

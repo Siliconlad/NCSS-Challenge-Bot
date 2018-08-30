@@ -176,3 +176,22 @@ def is_higher_pair(pair1, pair2):
             return True
         elif SUIT_SCORE[pair2_highest_suit] == 3:
             return False
+
+def all_pairs(hand):
+    '''
+    Returns a list of all possible pairs from a given hand.
+
+    Given a list of cards, the program will go through every combination of cards, check that they are a valid pair then add them to a list which is returned.
+
+    Inputs:
+    hand -- list of cards
+
+    Output:
+    -- list of all possible pairs from the given hand
+
+    '''
+    pairs = []
+    for pair in itertools.combinations(hand, 2):
+        if is_pair(pair[0], pair[1]):
+            pairs.append(list(pair))
+    return pairs

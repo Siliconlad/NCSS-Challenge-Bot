@@ -1,3 +1,6 @@
+SUIT_SCORE = {"D":0, "C":1, "H":2, "S":3}
+RANK_SCORE = {"3":0, "4":1, "5":2, "6":3, "7":4, "8":5, "9":6, "0": 7, "J":8, "Q":9, "K":10, "A":11, "2":12}
+
 def is_higher(card1, card2):
     '''
     The function compares two cards to see which is ranked higher.
@@ -17,11 +20,8 @@ def is_higher(card1, card2):
     -- Valid card e.g. NOT '9Y'
     '''
 
-    suit_score = {"D": 0, "C": 1, "H": 2, "S": 3}
-    rank_score = {"3":0, "4":1, "5":2, "6":3, "7":4, "8":5, "9":6, "0":7, "J":8, "Q":9, "K":10, "A":11, "2":12}
-
-    card1_num_rank = rank_score[card1[0]]
-    card2_num_rank = rank_score[card2[0]]
+    card1_num_rank = RANK_SCORE[card1[0]]
+    card2_num_rank = RANK_SCORE[card2[0]]
 
     # Compare card number
     if card1_num_rank < card2_num_rank:
@@ -30,8 +30,8 @@ def is_higher(card1, card2):
         return True
     # Compare suits if ranks are equal
     else:
-        card1_suit_rank = suit_score[card1[1]]
-        card2_suit_rank = suit_score[card2[1]]
+        card1_suit_rank = SUIT_SCORE[card1[1]]
+        card2_suit_rank = SUIT_SCORE[card2[1]]
 
         return True if card1_suit_rank > card2_suit_rank else False
 
@@ -163,20 +163,18 @@ def is_higher_pair(pair1, pair2):
     -- Assumes pair1 and pair2 are valid pairs
     -- Assumes pair1 and pair2 sorted from least to greatest i.e. ['3D', '3S'] and NOT ['3S', '3D']
     '''
-    
-    suit_score = {"D":0, "C":1, "H":2, "S":3}
-    ranks_score = {"3":0, "4":1, "5":2, "6":3, "7":4, "8":5, "9":6, "0": 7, "J":8, "Q":9, "K":10, "A":11, "2":12}
+
     pair1_rank = pair1[1][0]
     pair2_rank = pair2[1][0]
     pair1_highest_suit = pair1[1][1]
     pair2_highest_suit = pair2[1][1]
 
-    if ranks_score[pair1_rank] < ranks_score[pair2_rank]:
+    if RANK_SCORE[pair1_rank] < RANK_SCORE[pair2_rank]:
         return False
-    elif ranks_score[pair1_rank] > ranks_score[pair2_rank]:
+    elif RANK_SCORE[pair1_rank] > RANK_SCORE[pair2_rank]:
         return True
     else:
-        if suit_score[pair1_highest_suit] == 3:
+        if SUIT_SCORE[pair1_highest_suit] == 3:
             return True
-        elif suit_score[pair2_highest_suit] == 3:
+        elif SUIT_SCORE[pair2_highest_suit] == 3:
             return False

@@ -66,6 +66,8 @@ class Test(unittest.TestCase):
         hand = ['3D', '3C', '3S', '4D', '8D', '8S', '0J', '2S']
         self.assertEqual([['3D', '3C', '3S']], all_triples(hand))
 
+        hand = ['3C', '3S', '4D', '8D', '8S', '0J', '2S']
+        self.assertEqual([], all_triples(hand))
     def test_sort_triples(self):
         self.assertEqual([['3D', '3C', '3S']], sort_triples([['3D', '3C', '3S']]))
         self.assertEqual([['3D', '3C', '3S'], ['4D', '4H', '4S']], sort_triples([['4D', '4H', '4S'], ['3D', '3C', '3S']]))

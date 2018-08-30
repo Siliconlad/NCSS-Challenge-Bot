@@ -73,7 +73,7 @@ def playable(hand, play_to_beat):
 
     Keyword arguements:
     hand -- a list of single cards
-    play_to_beat = a list containing one card
+    play_to_beat -- a list containing one card
 
     Return type:
     playable_cards -- a list of all the cards that will beat the play_to_beat card
@@ -104,7 +104,7 @@ def highest(hand, round_history):
     round_history -- a list of all the plays in the current round, organised into trick lists which contain play lists. A play list is a list with the player number and card played by that player.
 
     Return type:
-    list
+    list -- stores all the highest cards in the game in the given hand
 
     Function assumptions:
     -- the function assumes hand is sorted
@@ -133,11 +133,11 @@ def is_pair(card1, card2):
 
     Takes two cards and compares the ranks to see if they match. If they do True is returned, if not False. 
 
-    Inputs:
-    -- card1 - string
-    -- card2 - string
+    Keyword arguements:
+    card1 -- string
+    card2 -- string
 
-    Output:
+    Return Type:
     -- Boolean (True/False)
     '''
     if (card1[0] == card2[0]):
@@ -151,10 +151,10 @@ def is_higher_pair(pair1, pair2):
 
     The function compares pair1 and pair2. If pair1 is ranked higher then the function returns True if not then False. Order of the parameters matter when comparing two pairs.
 
-    Inputs:
-    -- pair1, pair2 - list of two cards i.e. ['3D', '3S']
+    Keyword arguements:
+    pair1, pair2 -- list of two cards i.e. ['3D', '3S']
 
-    Outputs:
+    Return type:
     -- Boolean (True/False)
 
     Assumptions:
@@ -182,13 +182,14 @@ def all_pairs(hand):
     Returns a list of all possible pairs from a given hand.
 
     Given a list of cards, the program will go through every combination of cards, check that they are a valid pair then add them to a list which is returned.
-    
-    Inputs:
+
+    Keyword arguements:
     hand -- list of cards
 
-    Output:
+    Return type:
     -- list of all possible pairs from the given hand
     '''
+
     pairs = []
     for pair in itertools.combinations(hand, 2):
         if is_pair(pair[0], pair[1]):

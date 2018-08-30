@@ -140,12 +140,10 @@ def is_pair(card1, card2):
     Output:
     -- Boolean (True/False)
     '''
-
-    def is_pair(card1, card2):
-        if (card1[0] == card2[0]):
-            return True
-        else:
-            return False
+    if (card1[0] == card2[0]):
+        return True
+    else:
+        return False
 
 def is_higher_pair(pair1, pair2):
     '''

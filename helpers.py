@@ -84,6 +84,7 @@ def playable(hand, play_to_beat):
     -- play_to_beat is a list with one card
     -- the hand is sorted
     '''
+
     if len(play_to_beat) == 0:
         return hand
     
@@ -142,6 +143,7 @@ def is_pair(card1, card2):
     Return Type:
     -- Boolean (True/False)
     '''
+
     if (card1[0] == card2[0]):
         return True
     else:

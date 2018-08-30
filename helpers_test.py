@@ -41,6 +41,10 @@ class Test(unittest.TestCase):
         self.assertEqual(True, is_higher_pair(['JD', 'JS'], ['JC', 'JC']))
         self.assertEqual(False, is_higher_pair(['3D', '3S'], ['2C', '2C']))
 
+    def test_all_pairs(self):
+        hand = ['3D', '3C', '3S', '4D', '8D', '8S', '0J', '2S']
+        self.assertEqual([['3D', '3C'], ['3D', '3S'], ['3C', '3S'], ['8D', '8S']], all_pairs(hand))
+
     def test_sort_pairs(self):
         self.assertEqual([['3D', '3S']], sort_pairs([['3D', '3S']]))
         self.assertEqual([['3D', '3S'], ['2D', '2S']], sort_pairs([['2D', '2S'], ['3D', '3S']]))

@@ -18,6 +18,11 @@ class Test(unittest.TestCase):
 
         hand = ['3D', '4D', '7S', '0D']
         self.assertEqual(['3D'], play(hand, True, [], [[]], 0, [9, 9, 10, 10], [0, 0, 0, 0], 0))
+    
+    def test_play_start_trick(self):
+        self.assertEqual(['AH'], play(['4S', '5C', '7C', '7S', 'AH'], False, [], [[]], 0, [5, 5, 1, 5], [0, 0, 0, 0], 0))
+
+        self.assertEqual(['4S'], play(['4S', '5C', '7C', '7S', 'AH'], False, [], [[]], 0, [5, 5, 5, 5], [0, 0, 0, 0], 0))
 
     def test_play_singles(self):
         hand = ['7H', '8D', '8S', '9S', '0S', 'JD', 'JH', 'JS', 'KH']

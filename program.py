@@ -5,11 +5,9 @@ def play(hand, is_start_of_round, play_to_beat, round_history, player_no, hand_s
     sorted_hand = sort(hand)
     size_of_hand = hand_sizes[player_no]
 
-    # Get a sorted list of all triples and doubles in hand
+    # If start of round then card play must include '3D'
     triples = all_triples(sorted_hand)
     pairs = all_pairs(sorted_hand)
-
-    # If start of round then card play must include '3D'
     if is_start_of_round:
         for triple in triples:
             if '3D' in triple:
@@ -19,7 +17,7 @@ def play(hand, is_start_of_round, play_to_beat, round_history, player_no, hand_s
             if '3D' in pair:
                 return pair
         
-        return '3D'
+        return ['3D']
 
     # Obtains a list of playable cards to work with
     playable_cards = playable(sorted_hand, play_to_beat)

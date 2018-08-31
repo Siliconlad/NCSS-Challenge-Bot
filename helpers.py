@@ -3,6 +3,8 @@ import itertools
 SUIT_SCORE = {"D":0, "C":1, "H":2, "S":3}
 RANK_SCORE = {"3":0, "4":1, "5":2, "6":3, "7":4, "8":5, "9":6, "0": 7, "J":8, "Q":9, "K":10, "A":11, "2":12}
 
+# Functions relating to single cards
+
 def is_higher(card1, card2):
     '''
     The function compares two cards to see which is ranked higher.
@@ -37,65 +39,6 @@ def is_higher(card1, card2):
 
         return True if card1_suit_rank > card2_suit_rank else False
 
-def sort(hand):
-    '''
-    The function returns a sorted list of cards.
-
-    The function sorts a list of single cards and returns them in ascending order. The parameter of the function must be a list of strings. It should not contain any lists or other data structures.
-
-    Keyword arguements:
-    hand -- a list of single cards
-
-    Return type:
-    sorted_list -- a list of sorted cards in ascending order
-
-    Function assumptions:
-    -- The hand is a list of strings
-    '''
-
-    # Implements a bubble sort algorithm for sorting the hand
-    is_sorted = False
-    while not is_sorted:
-        # Assume list is sorted
-        is_sorted = True
-        for index in range(0, len(hand) - 1):
-            if is_higher(hand[index], hand[index + 1]):
-                temp = hand[index]
-                hand[index] = hand[index+1]
-                hand[index+1] = temp
-                is_sorted = False
-
-    return hand
-
-def playable(hand, play_to_beat):
-    '''
-    Returns a list of all the cards in the hand greater than the card to beat.
-
-    The function takes in two parameters, hand and play_to_beat. The function then returns all the cards greater than the play_to_beat in the hand of the player in a list. The function will return an empty list if no cards in hand are greater than the play_to_beat.
-
-    Keyword arguements:
-    hand -- a list of single cards
-    play_to_beat -- a list containing one card
-
-    Return type:
-    playable_cards -- a list of all the cards that will beat the play_to_beat card
-
-    Function assumptions:
-    -- play_to_beat is a list with one card
-    -- the hand is sorted
-    '''
-
-    if len(play_to_beat) == 0:
-        return hand
-    
-    card_to_beat = play_to_beat[0]
-    for card in hand:
-        if is_higher(card, card_to_beat):
-            index = hand.index(card)
-            return hand[index:]
-
-    return []
-
 def highest(hand, round_history):
     '''
     Returns a list of all the highest cards in the game from hand.
@@ -129,6 +72,38 @@ def highest(hand, round_history):
         highest_cards.append(deck.pop(-1))
     
     return sort(highest_cards)
+
+def sort(hand):
+    '''
+    The function returns a sorted list of cards.
+
+    The function sorts a list of single cards and returns them in ascending order. The parameter of the function must be a list of strings. It should not contain any lists or other data structures.
+
+    Keyword arguements:
+    hand -- a list of single cards
+
+    Return type:
+    sorted_list -- a list of sorted cards in ascending order
+
+    Function assumptions:
+    -- The hand is a list of strings
+    '''
+
+    # Implements a bubble sort algorithm for sorting the hand
+    is_sorted = False
+    while not is_sorted:
+        # Assume list is sorted
+        is_sorted = True
+        for index in range(0, len(hand) - 1):
+            if is_higher(hand[index], hand[index + 1]):
+                temp = hand[index]
+                hand[index] = hand[index+1]
+                hand[index+1] = temp
+                is_sorted = False
+
+    return hand
+
+# Functions relating to pairs of cards
 
 def is_pair(card1, card2):
     '''
@@ -169,39 +144,34 @@ def is_higher_pair(pair1, pair2):
     pair1 = sort(pair1)
     pair2 = sort(pair2)
 
-    pair1_rank = pair1[1][0]
-    pair2_rank = pair2[1][0]
-    pair1_highest_suit = pair1[1][1]
-    pair2_highest_suit = pair2[1][1]
+    pair1_rank_score = RANK_SCORE[pair1[1][0]]
+    pair2_rank_score = RANK_SCORE[pair2[1][0]]
 
-    if RANK_SCORE[pair1_rank] < RANK_SCORE[pair2_rank]:
+    if pair1_rank_score < pair2_rank_score:
         return False
-    elif RANK_SCORE[pair1_rank] > RANK_SCORE[pair2_rank]:
+    elif pair1_rank_score > pair2_rank_score:
         return True
     else:
-        if SUIT_SCORE[pair1_highest_suit] == 3:
+        pair1_highest_suit_score = SUIT_SCORE[pair1[1][1]]
+        pair2_highest_suit_score = SUIT_SCORE[pair2[1][1]]
+
+        if pair1_highest_suit_score > pair2_highest_suit_score:
             return True
-        elif SUIT_SCORE[pair2_highest_suit] == 3:
+        elif pair1_highest_suit_score < pair2_highest_suit_score:
             return False
+        # If they both have the same highest card, possible when finding all 
+        # possible pairs in a given hand
+        else:
+            pair1_lowest_suit_score = SUIT_SCORE[pair1[0][1]]
+            pair2_lowest_suit_score = SUIT_SCORE[pair2[0][1]]
 
-def all_pairs(hand):
-    '''
-    Returns a list of all possible pairs from a given hand.
+            if pair1_lowest_suit_score > pair2_lowest_suit_score:
+                return True
+            elif pair1_lowest_suit_score < pair2_lowest_suit_score:
+                return False
+            else:
+                return False
 
-    Given a list of cards, the program will go through every combination of cards, check that they are a valid pair then add them to a list which is returned.
-
-    Keyword arguements:
-    hand -- list of cards
-
-    Return type:
-    -- list of all possible pairs from the given hand
-    '''
-
-    pairs = []
-    for pair in itertools.combinations(hand, 2):
-        if is_pair(pair[0], pair[1]):
-            pairs.append(list(pair))
-    return pairs
 
 def sort_pairs(pairs):
     '''
@@ -229,6 +199,27 @@ def sort_pairs(pairs):
                 is_sorted = False
         counter += 1
     return pairs
+
+def all_pairs(hand):
+    '''
+    Returns a list of all possible pairs from a given hand.
+
+    Given a list of cards, the program will go through every combination of cards, check that they are a valid pair then add them to a list which is returned.
+
+    Keyword arguements:
+    hand -- list of cards
+
+    Return type:
+    -- a sorted list of all possible pairs from the given hand
+    '''
+
+    pairs = []
+    for pair in itertools.combinations(hand, 2):
+        if is_pair(pair[0], pair[1]):
+            pairs.append(list(pair))
+    return sort_pairs(pairs)
+
+# Functions relating to triple cards
 
 def is_triple(card1, card2, card3):
     '''
@@ -328,3 +319,55 @@ def sort_triples(triples):
                 is_sorted = False
         counter += 1
     return triples
+
+# Functions relating to all three card variations
+
+def playable(hand, play_to_beat):
+    '''
+    Returns a list of all the cards in the hand greater than the card to beat.
+
+    The function takes in two parameters, hand and play_to_beat. Depending on the size of the play_to_beat (i.e. is it a 2 card play) the function will return a list of all possible card plays.
+
+    For example if play_to_beat is a card pair, then the function will return a list of all possible playable pairs. Similarily for a triple card play. For a single card the function will return a list of card strings that are playable.
+    
+    The function will return an empty list if no cards in hand are greater than the play_to_beat.
+
+    Keyword arguements:
+    hand -- a list of single cards
+    play_to_beat -- a list containing a card play (i.e. [card] or [[pair]] or [[triple]])
+
+    Return type:
+    playable_cards -- a list, or a list of lists, of all the card combinations that will beat the play_to_beat card depending on its length.
+
+    Function assumptions:
+    -- play_to_beat is a list with card play
+    -- the hand is sorted
+    '''
+
+    size_of_play = len(play_to_beat)
+    # If starting trick or round
+    if size_of_play == 0:
+        return hand
+    # If play_to_beat is a single card
+    elif size_of_play == 1:
+        card_to_beat = play_to_beat[0]
+        for card in hand:
+            if is_higher(card, card_to_beat):
+                index = hand.index(card)
+                return hand[index:]
+    # If play_to_beat is a pair
+    elif size_of_play == 2:
+        pairs = all_pairs(hand)
+        for pair in pairs:
+            if is_higher_pair(pair, play_to_beat):
+                index = pairs.index(pair)
+                return pairs[index:]
+    # If play_to_beat is a triple
+    elif size_of_play == 3:
+        triples = all_triples(hand)
+        for triple in triples:
+            if is_higher_triple(triple, play_to_beat):
+                index = triples.index(triple)
+                return triples[index:]
+
+    return []

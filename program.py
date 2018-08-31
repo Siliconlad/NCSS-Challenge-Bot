@@ -4,7 +4,7 @@ def play(hand, is_start_of_round, play_to_beat, round_history, player_no, hand_s
     # Sort the hand because all functions assume the hand is sorted
     sorted_hand = sort(hand)
     size_of_hand = hand_sizes[player_no]
-
+    size_of_play_to_beat = len(play_to_beat)
     # If start of round then card play must include '3D'
     triples = all_triples(sorted_hand)
     pairs = all_pairs(sorted_hand)
@@ -26,22 +26,40 @@ def play(hand, is_start_of_round, play_to_beat, round_history, player_no, hand_s
     if size_of_playable == 0:
         return []
 
-    highest_cards = highest(sorted_hand, round_history)
-    size_of_highest = len(highest_cards)
-    if size_of_highest != 0:
-        # If a player can win the round by playing all their highest cards 
-        if size_of_highest == size_of_hand or size_of_highest == size_of_hand-1:
-            playable_highest = playable(highest_cards, play_to_beat)
-            if len(playable_highest) != 0:
-                return [playable_highest[0]]
+    # Rules for single cards
+    elif size_of_play_to_beat == 1:
+        highest_cards = highest(sorted_hand, round_history)
+        size_of_highest = len(highest_cards)
+        if size_of_highest != 0:
+            # If a player can win the round by playing all their highest cards 
+            if size_of_highest == size_of_hand or size_of_highest == size_of_hand-1:
+                playable_highest = playable(highest_cards, play_to_beat)
+                if len(playable_highest) != 0:
+                    return [playable_highest[0]]
 
-    # If someone has one card left play the highest card to delay their win
-    # If I have one card left play it
-    if 1 in hand_sizes:
-        return [playable_cards[-1]]
-    
-    # Keep highest card
-    if len(playable_cards) > 1:
+        # If someone has one card left play the highest card to delay their win
+        # If I have one card left play it
+        if 1 in hand_sizes:
+            return [playable_cards[-1]]
+        
+        # Keep highest card
+        if len(playable_cards) > 1:
+            # Play lowest card that is not part of a pair or triple
+            for card in playable_cards:
+                if not_in_pair(card, pairs):
+                    return [card]
+        else:
+            return []
+
+    # Rules for playing doubles
+    elif size_of_play_to_beat == 2:
+        # Play the lowest card not in triples
+        for pair in playable_cards:
+            if not_in_triple(pair, triples):
+                return [pair]
+    elif size_of_play_to_beat == 3:
+        # Play the lowest possible triple
         return [playable_cards[0]]
+
     else:
         return []

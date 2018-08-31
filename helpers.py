@@ -371,3 +371,24 @@ def playable(hand, play_to_beat):
                 return triples[index:]
 
     return []
+
+def not_in_pair(card, pairs):
+    '''
+    '''
+
+    for pair in pairs:
+        if card in pair:
+            return False
+    
+    return True
+
+def not_in_triple(pair, triples):
+    '''
+    '''
+    
+    card = pair[0]
+    for triple in triples:
+        if card in triple:
+            return False
+    
+    return True

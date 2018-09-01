@@ -39,6 +39,36 @@ def is_higher(card1, card2):
 
         return True if card1_suit_rank > card2_suit_rank else False
 
+def sort(hand):
+    '''
+    The function returns a sorted list of cards.
+
+    The function sorts a list of single cards and returns them in ascending order. The parameter of the function must be a list of strings. It should not contain any lists or other data structures.
+
+    Keyword arguements:
+    hand -- a list of single cards
+
+    Return type:
+    sorted_list -- a list of sorted cards in ascending order
+
+    Function assumptions:
+    -- The hand is a list of strings
+    '''
+
+    # Implements a bubble sort algorithm for sorting the hand
+    is_sorted = False
+    while not is_sorted:
+        # Assume list is sorted
+        is_sorted = True
+        for index in range(0, len(hand) - 1):
+            if is_higher(hand[index], hand[index + 1]):
+                temp = hand[index]
+                hand[index] = hand[index+1]
+                hand[index+1] = temp
+                is_sorted = False
+
+    return hand
+
 def highest(hand, round_history):
     '''
     Returns a list of all the highest cards in the game from hand.
@@ -73,36 +103,6 @@ def highest(hand, round_history):
     
     return sort(highest_cards)
 
-def sort(hand):
-    '''
-    The function returns a sorted list of cards.
-
-    The function sorts a list of single cards and returns them in ascending order. The parameter of the function must be a list of strings. It should not contain any lists or other data structures.
-
-    Keyword arguements:
-    hand -- a list of single cards
-
-    Return type:
-    sorted_list -- a list of sorted cards in ascending order
-
-    Function assumptions:
-    -- The hand is a list of strings
-    '''
-
-    # Implements a bubble sort algorithm for sorting the hand
-    is_sorted = False
-    while not is_sorted:
-        # Assume list is sorted
-        is_sorted = True
-        for index in range(0, len(hand) - 1):
-            if is_higher(hand[index], hand[index + 1]):
-                temp = hand[index]
-                hand[index] = hand[index+1]
-                hand[index+1] = temp
-                is_sorted = False
-
-    return hand
-
 def is_better_play(first, second):    
     '''
     The function, given two lists, determines which play, first or second, is a better play.
@@ -120,6 +120,7 @@ def is_better_play(first, second):
     Assumptions:
     -- Assumes the cards are not 5 cards long (yet)
     '''
+    
     first = sort(first)
     second = sort(second)
     length_of_play = len(first)

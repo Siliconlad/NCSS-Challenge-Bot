@@ -39,9 +39,27 @@ def is_better_play(first, second):
             else:
                 return False
 
+def sort(singles):
+    '''
+    Returns a sorted list of singles.
+    '''
+
+    is_sorted = False
+    while not is_sorted:
+        is_sorted = True
+        counter = 1
+        length_of_cards = len(singles)
+        for i in range(length_of_cards - counter):
+            if is_better_play([singles[i]], [singles[i+1]]):
+                # Swap
+                singles[i], singles[i+1] = singles[i+1], singles[i]
+                is_sorted = False
+        counter += 1
+    return singles
+
 def sort_cards(cards):
     '''
-    Returns a sorted list of cards.
+    Returns a sorted list of pairs or triples.
 
     The function accepts a list of cards (pairs or triples) of the format [[cards_1], [cards_2]] and sorts and returns the list. The sorting algorithm uses a bubble sort.
 
@@ -59,7 +77,6 @@ def sort_cards(cards):
         counter = 1
         length_of_cards = len(cards)
         for i in range(length_of_cards - counter):
-            print(cards[i])
             if is_better_play(cards[i], cards[i+1]):
                 # Swap
                 cards[i], cards[i+1] = cards[i+1], cards[i]
@@ -99,7 +116,7 @@ def highest(hand, round_history):
     while deck[-1] in hand:
         highest_cards.append(deck.pop(-1))
     
-    return sort_cards(highest_cards)
+    return sort(highest_cards)
 
 # Functions relating to pairs of cards
 
@@ -138,7 +155,7 @@ def all_pairs(hand):
     pairs = []
     for pair in itertools.combinations(hand, 2):
         if is_pair(pair[0], pair[1]):
-            pair = sort_cards(list(pair))
+            pair = sort(list(pair))
             pairs.append(pair)
     return sort_cards(pairs)
 
@@ -181,7 +198,7 @@ def all_triples(hand):
     triples = []
     for triple in itertools.combinations(hand, 3):
         if is_triple(triple[0], triple[1], triple[2]):
-            triples = sort_cards(list(triple))
+            triple = sort(list(triple))
             triples.append(list(triple))
     return sort_cards(triples)
 
@@ -215,9 +232,8 @@ def playable(hand, play_to_beat):
         return hand
     # If play_to_beat is a single card
     elif size_of_play == 1:
-        card_to_beat = play_to_beat[0]
         for card in hand:
-            if is_better_play(card, card_to_beat):
+            if is_better_play([card], play_to_beat):
                 index = hand.index(card)
                 return hand[index:]
     # If play_to_beat is a pair

@@ -4,7 +4,7 @@ def play_singles(sorted_hand, play_to_beat, round_history, hand_sizes):
     highest_cards = highest(sorted_hand, round_history)
     size_of_highest = len(highest_cards)
     
-    if size_of_highest != 0:
+    if size_of_highest > 0:
         # If a player can win the round by playing all their highest cards 
         size_of_hand = len(sorted_hand)
         if size_of_highest >= size_of_hand-1:
@@ -33,8 +33,8 @@ def play_pairs(sorted_hand, play_to_beat):
     else:
         playable_cards = all_pairs(sorted_hand)
 
-    triples = all_triples(sorted_hand)
     # Play the lowest card not in triples
+    triples = all_triples(sorted_hand)
     for pair in playable_cards:
         if not_in_triple(pair, triples):
             return pair
@@ -46,10 +46,10 @@ def play_triples(sorted_hand, play_to_beat):
     else:
         playable_hand = all_triples(sorted_hand)
 
-    if len(playable_hand) > 0:
-        return playable_hand[0]
-    else:
+    if len(playable_hand) == 0:
         return []
+
+    return playable_hand[0]
 
 def play(hand, is_start_of_round, play_to_beat, round_history, player_no, hand_sizes, scores, round_no):
     # Sort the hand because all functions assume the hand is sorted

@@ -2,34 +2,13 @@ import unittest
 from helpers import *
 
 class Test(unittest.TestCase):
-    def test_is_higher(self):
-        self.assertEqual(False, is_higher('3D', '3C'))
-        self.assertEqual(True, is_higher('JS', 'JD'))
-        self.assertEqual(True, is_higher('2S', '3D'))
-        self.assertEqual(False, is_higher('3D', '3D'))
-
-    def test_highest(self):
-        hand = ['JD', '2H', '2S']
-        round_history = [[[3, ['3D']], [0, ['6C']], [1, []], [2, ['6H']], [3, ['0H']]]]
-        self.assertEqual(['2H', '2S'], highest(hand, round_history))
-
-        hand = ['JD']
-        round_history = [[]]
-        self.assertEqual([], highest(hand, round_history))
-
-        hand = ['4D', '2H']
-        round_history = [[ [0, ['3D']], [1, ['3C']], [2, []], [3, ['4S']], [0, ['7D']], [1, ['9C']], [2, []], [3, ['JD']], [0, ['2C']], [1, ['2S']] ] , [ [1, ['3S']], [2, []], [3, []] ]]
-        self.assertEqual(['2H'], highest(hand, round_history))
-
-    def test_sort(self):
-        self.assertEqual(['3D', '3C', '3H', '3S'], sort(['3S', '3D', '3H', '3C']))
-        self.assertEqual(['3D', '8D', '0D', 'AD', '2S'], sort(['AD', '2S', '0D', '8D', '3D']))
-
-    def test_is_pair(self):
-        self.assertEqual(True, is_pair('3D', '3S'))
-        self.assertEqual(False, is_pair('JD', 'QD'))
-
     def test_is_better_play(self):
+        # Singles
+        self.assertEqual(False, is_better_play('3D', '3C'))
+        self.assertEqual(True, is_better_play('JS', 'JD'))
+        self.assertEqual(True, is_better_play('2S', '3D'))
+        self.assertEqual(False, is_better_play('3D', '3D'))
+
         # Pairs
         self.assertEqual(True, is_better_play(['JD', 'JS'], ['0H', '0S']))
         self.assertEqual(True, is_better_play(['JD', 'JS'], ['JC', 'JC']))
@@ -44,22 +23,43 @@ class Test(unittest.TestCase):
         # Two triples with the same rank cannot exist hence must return False
         self.assertEqual(False, is_better_play(['8S', '8D', '8H'], ['8C', '8D', '8S']))
 
+    def test_sort_cards(self):
+        # Singles
+        self.assertEqual(['3D', '3C', '3H', '3S'], sort_cards(['3S', '3D', '3H', '3C']))
+        self.assertEqual(['3D', '8D', '0D', 'AD', '2S'], sort_cards(['AD', '2S', '0D', '8D', '3D']))
+
+        # For pair card plays
+        self.assertEqual([['3D', '3S']], sort_cards([['3D', '3S']]))
+        self.assertEqual([['3D', '3S'], ['2D', '2S']], sort_cards([['2D', '2S'], ['3D', '3S']]))
+        self.assertEqual([['2D', '2C'], ['2H', '2S']], sort_cards([['2H', '2S'], ['2D', '2C']]))
+
+        # For triple card plays
+        self.assertEqual([['3D', '3C', '3S']], sort_cards([['3D', '3C', '3S']]))
+        self.assertEqual([['3D', '3C', '3S'], ['4D', '4H', '4S']], sort_cards([['4D', '4H', '4S'], ['3D', '3C', '3S']]))
+
+    def test_highest(self):
+        hand = ['JD', '2H', '2S']
+        round_history = [[[3, ['3D']], [0, ['6C']], [1, []], [2, ['6H']], [3, ['0H']]]]
+        self.assertEqual(['2H', '2S'], highest(hand, round_history))
+
+        hand = ['JD']
+        round_history = [[]]
+        self.assertEqual([], highest(hand, round_history))
+
+        hand = ['4D', '2H']
+        round_history = [[ [0, ['3D']], [1, ['3C']], [2, []], [3, ['4S']], [0, ['7D']], [1, ['9C']], [2, []], [3, ['JD']], [0, ['2C']], [1, ['2S']] ] , [ [1, ['3S']], [2, []], [3, []] ]]
+        self.assertEqual(['2H'], highest(hand, round_history))
+
+    def test_is_pair(self):
+        self.assertEqual(True, is_pair('3D', '3S'))
+        self.assertEqual(False, is_pair('JD', 'QD'))
+
     def test_all_pairs(self):
         hand = ['3D', '3C', '3S', '4D', '8D', '8S', '0J', '2S']
         self.assertEqual([['3D', '3C'], ['3D', '3S'], ['3C', '3S'], ['8D', '8S']], all_pairs(hand))
 
         hand = ['3C', '3S', '4D', '8D', '8S', '0J', '2S']
         self.assertEqual([['3C', '3S'], ['8D', '8S']], all_pairs(hand))
-
-    def test_sort_cards(self):
-        # For pair card plays
-        self.assertEqual([['3D', '3S']], sort_pairs([['3D', '3S']]))
-        self.assertEqual([['3D', '3S'], ['2D', '2S']], sort_pairs([['2D', '2S'], ['3D', '3S']]))
-        self.assertEqual([['2D', '2C'], ['2H', '2S']], sort_pairs([['2H', '2S'], ['2D', '2C']]))
-
-        # For triple card plays
-        self.assertEqual([['3D', '3C', '3S']], sort_triples([['3D', '3C', '3S']]))
-        self.assertEqual([['3D', '3C', '3S'], ['4D', '4H', '4S']], sort_triples([['4D', '4H', '4S'], ['3D', '3C', '3S']]))
 
     def test_is_triple(self):
         self.assertEqual(True, is_triple('3D', '3C', '3S'))

@@ -5,69 +5,67 @@ RANK_SCORE = {"3":0, "4":1, "5":2, "6":3, "7":4, "8":5, "9":6, "0": 7, "J":8, "Q
 
 # Functions relating to single cards
 
-def is_higher(card1, card2):
+def is_better_play(first, second):    
     '''
-    The function compares two cards to see which is ranked higher.
+    The function, given two lists, determines which play, first or second, is a better play.
 
-    The function compares two valid cards and returns true if card1 is ranked higher and false if it does not. Does not assume that the cards must be from the same deck. If two equivalent cards are passed then the function will return False because a card is not ranked higher than itself.
-
-    Keywords arguements:
-    card1 -- first card of type string (required), cannot be empty
-    card2 -- second card of type string (required), cannot be empty
-
-    Return type:
-    True -- when card1 is ranked higher than card2
-    False -- when card1 is ranked lower than card2
-
-    Function assumptions:
-    -- Valid card format e.g. '3D'
-    -- Valid card e.g. NOT '9Y'
-    '''
-
-    card1_num_rank = RANK_SCORE[card1[0]]
-    card2_num_rank = RANK_SCORE[card2[0]]
-
-    # Compare card number
-    if card1_num_rank < card2_num_rank:
-        return False
-    elif card1_num_rank > card2_num_rank:
-        return True
-    # Compare suits if ranks are equal
-    else:
-        card1_suit_rank = SUIT_SCORE[card1[1]]
-        card2_suit_rank = SUIT_SCORE[card2[1]]
-
-        return True if card1_suit_rank > card2_suit_rank else False
-
-def sort(hand):
-    '''
-    The function returns a sorted list of cards.
-
-    The function sorts a list of single cards and returns them in ascending order. The parameter of the function must be a list of strings. It should not contain any lists or other data structures.
+    The function compares two lists which can be either a one, two or three card play and compares whether the first play or the second play is better. If they are of different lengths then False is returned.
 
     Keyword arguements:
-    hand -- a list of single cards
+    first -- list
+    second -- list
 
-    Return type:
-    sorted_list -- a list of sorted cards in ascending order
+    Return value:
+    True -- if first is a better play than second
+    False -- if second is a better play than first
 
-    Function assumptions:
-    -- The hand is a list of strings
+    Assumptions:
+    -- Assumes first and second are sorted
+    -- Assumes the cards are not 5 cards long (yet)
     '''
 
-    # Implements a bubble sort algorithm for sorting the hand
+    length_of_play = len(first)
+
+    if length_of_play != 5:
+        if length_of_play != len(second):
+            return False
+        elif RANK_SCORE[first[-1][0]] > RANK_SCORE[second[-1][0]]:
+            return True
+        elif RANK_SCORE[first[-1][0]] < RANK_SCORE[second[-1][0]]:
+            return False
+        else:
+            if SUIT_SCORE[first[-1][1]] > SUIT_SCORE[second[-1][1]]:
+                return True
+            else:
+                return False
+
+def sort_cards(cards):
+    '''
+    Returns a sorted list of cards.
+
+    The function accepts a list of cards (pairs or triples) of the format [[cards_1], [cards_2]] and sorts and returns the list. The sorting algorithm uses a bubble sort.
+
+    Keyword Arguements:
+    triples -- a list of card plays (pairs or triples)
+
+    Return type:
+    list of lists -- returns the sorted list
+
+    '''
+
     is_sorted = False
     while not is_sorted:
-        # Assume list is sorted
         is_sorted = True
-        for index in range(0, len(hand) - 1):
-            if is_higher(hand[index], hand[index + 1]):
-                temp = hand[index]
-                hand[index] = hand[index+1]
-                hand[index+1] = temp
+        counter = 1
+        length_of_cards = len(cards)
+        for i in range(length_of_cards - counter):
+            print(cards[i])
+            if is_better_play(cards[i], cards[i+1]):
+                # Swap
+                cards[i], cards[i+1] = cards[i+1], cards[i]
                 is_sorted = False
-
-    return hand
+        counter += 1
+    return cards
 
 def highest(hand, round_history):
     '''
@@ -101,71 +99,9 @@ def highest(hand, round_history):
     while deck[-1] in hand:
         highest_cards.append(deck.pop(-1))
     
-    return sort(highest_cards)
-
-def is_better_play(first, second):    
-    '''
-    The function, given two lists, determines which play, first or second, is a better play.
-
-    The function compares two lists which can be either a one, two or three card play and compares whether the first play or the second play is better. If they are of different lengths then False is returned.
-
-    Keyword arguements:
-    first -- list
-    second -- list
-
-    Return value:
-    True -- if first is a better play than second
-    False -- if second is a better play than first
-
-    Assumptions:
-    -- Assumes the cards are not 5 cards long (yet)
-    '''
-
-    first = sort(first)
-    second = sort(second)
-    length_of_play = len(first)
-    
-    if length_of_play != 5:
-        if length_of_play != len(second):
-            return False
-        elif RANK_SCORE[first[-1][0]] > RANK_SCORE[second[-1][0]]:
-            return True
-        elif RANK_SCORE[first[-1][0]] < RANK_SCORE[second[-1][0]]:
-            return False
-        else:
-            if SUIT_SCORE[first[-1][1]] > SUIT_SCORE[second[-1][1]]:
-                return True
-            else:
-                return False
+    return sort_cards(highest_cards)
 
 # Functions relating to pairs of cards
-
-def sort_cards(cards):
-    '''
-    Returns a sorted list of cards.
-
-    The function accepts a list of cards (pairs or triples) of the format [[cards_1], [cards_2]] and sorts and returns the list. The sorting algorithm uses a bubble sort.
-
-    Keyword Arguements:
-    triples -- a list of card plays (pairs or triples)
-
-    Return type:
-    list of lists -- returns the sorted list
-
-    '''
-
-    is_sorted = False
-    while not is_sorted:
-        is_sorted = True
-        counter = 1
-        length_of_cards = len(cards)
-        for i in range(length_of_cards - counter):
-            if is_better_play(cards[i], cards[i+1]):
-                # Swap
-                cards[i], cards[i+1] = cards[i+1], cards[i]
-                is_sorted = False
-        counter += 1
-    return cards
 
 def is_pair(card1, card2):
     '''
@@ -202,7 +138,8 @@ def all_pairs(hand):
     pairs = []
     for pair in itertools.combinations(hand, 2):
         if is_pair(pair[0], pair[1]):
-            pairs.append(list(pair))
+            pair = sort_cards(list(pair))
+            pairs.append(pair)
     return sort_cards(pairs)
 
 # Functions relating to triple cards
@@ -244,8 +181,9 @@ def all_triples(hand):
     triples = []
     for triple in itertools.combinations(hand, 3):
         if is_triple(triple[0], triple[1], triple[2]):
+            triples = sort_cards(list(triple))
             triples.append(list(triple))
-    return triples
+    return sort_cards(triples)
 
 # Functions relating to all three card variations
 
@@ -279,7 +217,7 @@ def playable(hand, play_to_beat):
     elif size_of_play == 1:
         card_to_beat = play_to_beat[0]
         for card in hand:
-            if is_higher(card, card_to_beat):
+            if is_better_play(card, card_to_beat):
                 index = hand.index(card)
                 return hand[index:]
     # If play_to_beat is a pair

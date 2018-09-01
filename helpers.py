@@ -414,3 +414,37 @@ def not_in_triple(pair, triples):
             return False
     
     return True
+
+def is_better_play(first, second):    
+    '''
+    The function, given two lists, determines which play, first or second, is a better play.
+
+    The function compares two lists which can be either a one, two or three card play and compares whether the first play or the second play is better. If they are of different lengths then False is returned.
+
+    Keyword arguements:
+    first -- list
+    second -- list
+
+    Return value:
+    True -- if first is a better play than second
+    False -- if second is a better play than first
+
+    Assumptions:
+    -- Assumes the cards are not 5 cards long (yet)
+    '''
+    first = sort(first)
+    second = sort(second)
+    length_of_play = len(first)
+    
+    if length_of_play != 5:
+        if length_of_play != len(second):
+            return False
+        elif RANK_SCORE[first[-1][0]] > RANK_SCORE[second[-1][0]]:
+            return True
+        elif RANK_SCORE[first[-1][0]] < RANK_SCORE[second[-1][0]]:
+            return False
+        else:
+            if SUIT_SCORE[first[-1][1]] > SUIT_SCORE[second[-1][1]]:
+                return True
+            else:
+                return False

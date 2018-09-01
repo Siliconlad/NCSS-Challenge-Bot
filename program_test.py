@@ -2,6 +2,7 @@ import unittest
 from program import play
 
 class Test(unittest.TestCase):
+    # Tests for starting the round
     def test_play_start_round(self):
         # Starts round with multiple cards
         hand = ['3D', '3C', '3H', '3S', '4D', '7S', '0D']
@@ -19,11 +20,13 @@ class Test(unittest.TestCase):
         hand = ['3D', '4D', '7S', '0D']
         self.assertEqual(['3D'], play(hand, True, [], [[]], 0, [9, 9, 10, 10], [0, 0, 0, 0], 0))
     
+    # Tests for starting a trick
     def test_play_start_trick(self):
         self.assertEqual(['AH'], play(['4S', '5C', '7C', '7S', 'AH'], False, [], [[]], 0, [5, 5, 1, 5], [0, 0, 0, 0], 0))
 
         self.assertEqual(['4S'], play(['4S', '5C', '7C', '7S', 'AH'], False, [], [[]], 0, [5, 5, 5, 5], [0, 0, 0, 0], 0))
 
+    # Tests for playing singles
     def test_play_singles(self):
         hand = ['7H', '8D', '8S', '9S', '0S', 'JD', 'JH', 'JS', 'KH']
         
@@ -47,11 +50,13 @@ class Test(unittest.TestCase):
 
         self.assertEqual(['2H'], play(['JC', 'KH', '2H'], False, ['AS'], [[[1, ['3D']], [2, ['3C']], [3, ['3S']], [0, ['5S']], [1, ['6C']], [2, ['7S']], [3, ['8D']], [0, ['8C']], [1, ['9H']], [2, ['0C']], [3, ['0S']], [0, ['JD']], [1, ['JH']], [2, ['JS']], [3, ['KS']], [0, ['AC']], [1, []], [2, []], [3, ['AH']], [0, ['2D']], [1, []], [2, []], [3, []]], [[0, ['6D']], [1, ['6H']], [2, ['8S']], [3, ['9S']], [0, ['0D']], [1, ['0H']], [2, ['QD']], [3, []], [0, ['QS']], [1, ['KD']], [2, ['AD']], [3, []], [0, ['2C']], [1, []], [2, []], [3, ['2S']], [0, []], [1, []], [2, []]], [[3, ['4H']], [0, ['7H']], [1, ['QC']], [2, ['QH']], [3, ['AS']]]], 0, [3, 5, 5, 4], [-14, -5, 26, -7], 6)) 
 
+    # Tests for playing doubles
     def test_play_doubles(self):
         hand = ['3S', '4D', '4C', '5C', '5H', '5S', '6C', '6H', '7C', '7H', '7S', '8S', '9D', '9S', '0D', '0C', 'QD', 'QC', 'QS', 'KD', 'KH', 'KS', 'AH', 'AS']
         self.assertEqual(['4D', '4C'], play(hand, False, ['3D', '3C'], [[]], 0, [2, 13, 13, 13], [0, 0, 0, 0], 0))
         self.assertEqual(['6C', '6H'], play(hand, False, ['4H', '4S'], [[]], 0, [2, 13, 13, 13], [0, 0, 0, 0], 0))
 
+    # Tests for playing triples
     def test_play_triples(self):
         hand = ['3S', '4D', '4C', '5C', '5H', '5S', '6C', '6H', '7C', '7H', '7S', '8S', '9D', '9S', '0D', '0C', 'QD', 'QC', 'QS', 'KD', 'KH', 'KS', 'AH', 'AS']
 

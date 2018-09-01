@@ -12,14 +12,15 @@ def is_better_play(first, second):
     The function compares two lists which can be either a one, two or three card play and compares whether the first play or the second play is better. If they are of different lengths then False is returned.
 
     Keyword arguements:
-    first -- list
-    second -- list
+    first -- LIST
+    second -- LIST
 
     Return value:
     True -- if first is a better play than second
     False -- if second is a better play than first
 
     Assumptions:
+    -- Assumes parameters are lists
     -- Assumes first and second are sorted
     -- Assumes the cards are not 5 cards long (yet)
     '''
@@ -42,6 +43,14 @@ def is_better_play(first, second):
 def sort(singles):
     '''
     Returns a sorted list of singles.
+
+    The function differs from sort_cards in that the input is a list of strings (single cards) hence has the format [card1, card2, card3].
+
+    Keyword arguement:
+    singles -- list of strings
+
+    Return type:
+    list of strings
     '''
 
     is_sorted = False
@@ -63,12 +72,11 @@ def sort_cards(cards):
 
     The function accepts a list of cards (pairs or triples) of the format [[cards_1], [cards_2]] and sorts and returns the list. The sorting algorithm uses a bubble sort.
 
-    Keyword Arguements:
-    triples -- a list of card plays (pairs or triples)
+    Keyword arguements:
+    cards -- a list of lists
 
     Return type:
     list of lists -- returns the sorted list
-
     '''
 
     is_sorted = False

@@ -51,10 +51,15 @@ class Test(unittest.TestCase):
         hand = ['3C', '3S', '4D', '8D', '8S', '0J', '2S']
         self.assertEqual([['3C', '3S'], ['8D', '8S']], all_pairs(hand))
 
-    def test_sort_pairs(self):
+    def test_sort_cards(self):
+        # For pair card plays
         self.assertEqual([['3D', '3S']], sort_pairs([['3D', '3S']]))
         self.assertEqual([['3D', '3S'], ['2D', '2S']], sort_pairs([['2D', '2S'], ['3D', '3S']]))
         self.assertEqual([['2D', '2C'], ['2H', '2S']], sort_pairs([['2H', '2S'], ['2D', '2C']]))
+
+        # For triple card plays
+        self.assertEqual([['3D', '3C', '3S']], sort_triples([['3D', '3C', '3S']]))
+        self.assertEqual([['3D', '3C', '3S'], ['4D', '4H', '4S']], sort_triples([['4D', '4H', '4S'], ['3D', '3C', '3S']]))
 
     def test_is_triple(self):
         self.assertEqual(True, is_triple('3D', '3C', '3S'))
@@ -68,10 +73,6 @@ class Test(unittest.TestCase):
 
         hand = ['3C', '3S', '4D', '8D', '8S', '0J', '2S']
         self.assertEqual([], all_triples(hand))
-
-    def test_sort_triples(self):
-        self.assertEqual([['3D', '3C', '3S']], sort_triples([['3D', '3C', '3S']]))
-        self.assertEqual([['3D', '3C', '3S'], ['4D', '4H', '4S']], sort_triples([['4D', '4H', '4S'], ['3D', '3C', '3S']]))
 
     def test_playable(self):
         hand = ['3D', '4D', '4S', '7C', '8S', 'JD', 'JC', 'JS', 'KD', 'KS', 'AS', '2D', '2H']

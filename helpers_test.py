@@ -29,11 +29,20 @@ class Test(unittest.TestCase):
         self.assertEqual(True, is_pair('3D', '3S'))
         self.assertEqual(False, is_pair('JD', 'QD'))
 
-    def test_is_higher_pair(self):
-        self.assertEqual(True, is_higher_pair(['JD', 'JS'], ['0H', '0S']))
-        self.assertEqual(True, is_higher_pair(['JD', 'JS'], ['JC', 'JC']))
-        self.assertEqual(False, is_higher_pair(['3D', '3S'], ['2C', '2C']))
-        self.assertEqual(False, is_higher_pair(['3D', '3S'], ['3C', '3S']))
+    def test_is_better_play(self):
+        # Pairs
+        self.assertEqual(True, is_better_play(['JD', 'JS'], ['0H', '0S']))
+        self.assertEqual(True, is_better_play(['JD', 'JS'], ['JC', 'JC']))
+        self.assertEqual(False, is_better_play(['3D', '3S'], ['2C', '2C']))
+        self.assertEqual(False, is_better_play(['3D', '3S'], ['3C', '3S']))
+
+        # Triple cards
+        self.assertEqual(True, is_better_play(['8D', '8C', '8S'], ['3D', '3C', '3S']))
+        self.assertEqual(False, is_better_play(['4D', '4C', '4S'], ['2D', '2C', '2S']))
+        self.assertEqual(True, is_better_play(['8S', '8D', '8H'], ['3C', '3D', '3S']))
+
+        # Two triples with the same rank cannot exist hence must return False
+        self.assertEqual(False, is_better_play(['8S', '8D', '8H'], ['8C', '8D', '8S']))
 
     def test_all_pairs(self):
         hand = ['3D', '3C', '3S', '4D', '8D', '8S', '0J', '2S']
@@ -51,14 +60,7 @@ class Test(unittest.TestCase):
         self.assertEqual(True, is_triple('3D', '3C', '3S'))
         self.assertEqual(True, is_triple('3H', '3S', '3D'))
         self.assertEqual(False, is_triple('3H', '2S', '3D'))
-
-    def test_is_higher_triple(self):
-        self.assertEqual(True, is_higher_triple(['8D', '8C', '8S'], ['3D', '3C', '3S']))
-        self.assertEqual(False, is_higher_triple(['4D', '4C', '4S'], ['2D', '2C', '2S']))
-        self.assertEqual(True, is_higher_triple(['8S', '8D', '8H'], ['3C', '3D', '3S']))
-
-        # Two triples with the same rank cannot exist hence must return False
-        self.assertEqual(False, is_higher_triple(['8S', '8D', '8H'], ['8C', '8D', '8S']))
+        
 
     def test_all_triples(self):
         hand = ['3D', '3C', '3S', '4D', '8D', '8S', '0J', '2S']

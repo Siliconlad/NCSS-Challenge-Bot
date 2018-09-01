@@ -103,6 +103,40 @@ def sort(hand):
 
     return hand
 
+def is_better_play(first, second):    
+    '''
+    The function, given two lists, determines which play, first or second, is a better play.
+
+    The function compares two lists which can be either a one, two or three card play and compares whether the first play or the second play is better. If they are of different lengths then False is returned.
+
+    Keyword arguements:
+    first -- list
+    second -- list
+
+    Return value:
+    True -- if first is a better play than second
+    False -- if second is a better play than first
+
+    Assumptions:
+    -- Assumes the cards are not 5 cards long (yet)
+    '''
+    first = sort(first)
+    second = sort(second)
+    length_of_play = len(first)
+    
+    if length_of_play != 5:
+        if length_of_play != len(second):
+            return False
+        elif RANK_SCORE[first[-1][0]] > RANK_SCORE[second[-1][0]]:
+            return True
+        elif RANK_SCORE[first[-1][0]] < RANK_SCORE[second[-1][0]]:
+            return False
+        else:
+            if SUIT_SCORE[first[-1][1]] > SUIT_SCORE[second[-1][1]]:
+                return True
+            else:
+                return False
+
 # Functions relating to pairs of cards
 
 def is_pair(card1, card2):
@@ -124,55 +158,6 @@ def is_pair(card1, card2):
     else:
         return False
 
-def is_higher_pair(pair1, pair2):
-    '''
-    Compares a pair of pairs to find which pair is ranked higher.
-
-    The function compares pair1 and pair2. If pair1 is ranked higher then the function returns True if not then False. Order of the parameters matter when comparing two pairs.
-
-    Keyword arguements:
-    pair1, pair2 -- list of two cards i.e. ['3D', '3S']
-
-    Return type:
-    -- Boolean (True/False)
-
-    Assumptions:
-    -- Assumes pair1 and pair2 are valid pairs
-    '''
-
-    # Sort the pairs
-    pair1 = sort(pair1)
-    pair2 = sort(pair2)
-
-    pair1_rank_score = RANK_SCORE[pair1[1][0]]
-    pair2_rank_score = RANK_SCORE[pair2[1][0]]
-
-    if pair1_rank_score < pair2_rank_score:
-        return False
-    elif pair1_rank_score > pair2_rank_score:
-        return True
-    else:
-        pair1_highest_suit_score = SUIT_SCORE[pair1[1][1]]
-        pair2_highest_suit_score = SUIT_SCORE[pair2[1][1]]
-
-        if pair1_highest_suit_score > pair2_highest_suit_score:
-            return True
-        elif pair1_highest_suit_score < pair2_highest_suit_score:
-            return False
-        # If they both have the same highest card, possible when finding all 
-        # possible pairs in a given hand
-        else:
-            pair1_lowest_suit_score = SUIT_SCORE[pair1[0][1]]
-            pair2_lowest_suit_score = SUIT_SCORE[pair2[0][1]]
-
-            if pair1_lowest_suit_score > pair2_lowest_suit_score:
-                return True
-            elif pair1_lowest_suit_score < pair2_lowest_suit_score:
-                return False
-            else:
-                return False
-
-
 def sort_pairs(pairs):
     '''
     Returns a sorted list of pairs.
@@ -193,7 +178,7 @@ def sort_pairs(pairs):
         counter = 1
         size_of_pairs = len(pairs)
         for i in range(size_of_pairs - counter):
-            if is_higher_pair(pairs[i], pairs[i+1]):
+            if is_better_play(pairs[i], pairs[i+1]):
                 # Swap
                 pairs[i], pairs[i+1] = pairs[i+1], pairs[i]
                 is_sorted = False
@@ -242,38 +227,6 @@ def is_triple(card1, card2, card3):
     else:
         return False
 
-def is_higher_triple(triple1, triple2):
-    '''
-    Compares a pair of triples to find which triple is ranked higher.
-
-    The function compares triple1 and triple2. If triple1 is ranked higher then the function returns True if not then False. Order of the parameters matter when comparing the two triples.
-
-    Keyword arguements:
-    triple1, triple2, triple3 -- list of three cards i.e. ['3D', '3C', '3S']
-
-    Return type:
-    -- Boolean (True/False)
-
-    Assumptions:
-    -- Assumes pair1 and pair2 are valid triples
-    '''
-
-    # Sort the pairs
-    triple1 = sort(triple1)
-    triple2 = sort(triple2)
-
-    triple1_rank = triple1[2][0]
-    triple2_rank = triple2[2][0]
-    triple1_highest_suit = triple1[2][1]
-    triple2_highest_suit = triple2[2][1]
-
-    if RANK_SCORE[triple1_rank] < RANK_SCORE[triple2_rank]:
-        return False
-    elif RANK_SCORE[triple1_rank] > RANK_SCORE[triple2_rank]:
-        return True
-    else:
-        return False
-
 def all_triples(hand):
     '''
     Returns a list of all possible triples from a given hand.
@@ -313,7 +266,7 @@ def sort_triples(triples):
         counter = 1
         size_of_triples = len(triples)
         for i in range(size_of_triples - counter):
-            if is_higher_triple(triples[i], triples[i+1]):
+            if is_better_play(triples[i], triples[i+1]):
                 # Swap
                 triples[i], triples[i+1] = triples[i+1], triples[i]
                 is_sorted = False
@@ -359,14 +312,14 @@ def playable(hand, play_to_beat):
     elif size_of_play == 2:
         pairs = all_pairs(hand)
         for pair in pairs:
-            if is_higher_pair(pair, play_to_beat):
+            if is_better_play(pair, play_to_beat):
                 index = pairs.index(pair)
                 return pairs[index:]
     # If play_to_beat is a triple
     elif size_of_play == 3:
         triples = all_triples(hand)
         for triple in triples:
-            if is_higher_triple(triple, play_to_beat):
+            if is_better_play(triple, play_to_beat):
                 index = triples.index(triple)
                 return triples[index:]
 
@@ -414,37 +367,3 @@ def not_in_triple(pair, triples):
             return False
     
     return True
-
-def is_better_play(first, second):    
-    '''
-    The function, given two lists, determines which play, first or second, is a better play.
-
-    The function compares two lists which can be either a one, two or three card play and compares whether the first play or the second play is better. If they are of different lengths then False is returned.
-
-    Keyword arguements:
-    first -- list
-    second -- list
-
-    Return value:
-    True -- if first is a better play than second
-    False -- if second is a better play than first
-
-    Assumptions:
-    -- Assumes the cards are not 5 cards long (yet)
-    '''
-    first = sort(first)
-    second = sort(second)
-    length_of_play = len(first)
-    
-    if length_of_play != 5:
-        if length_of_play != len(second):
-            return False
-        elif RANK_SCORE[first[-1][0]] > RANK_SCORE[second[-1][0]]:
-            return True
-        elif RANK_SCORE[first[-1][0]] < RANK_SCORE[second[-1][0]]:
-            return False
-        else:
-            if SUIT_SCORE[first[-1][1]] > SUIT_SCORE[second[-1][1]]:
-                return True
-            else:
-                return False

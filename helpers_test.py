@@ -4,10 +4,10 @@ from helpers import *
 class Test(unittest.TestCase):
     def test_is_better_play(self):
         # Singles
-        self.assertEqual(False, is_better_play('3D', '3C'))
-        self.assertEqual(True, is_better_play('JS', 'JD'))
-        self.assertEqual(True, is_better_play('2S', '3D'))
-        self.assertEqual(False, is_better_play('3D', '3D'))
+        self.assertEqual(False, is_better_play(['3D'], ['3C']))
+        self.assertEqual(True, is_better_play(['JS'], ['JD']))
+        self.assertEqual(True, is_better_play(['2S'], ['3D']))
+        self.assertEqual(False, is_better_play(['3D'], ['3D']))
 
         # Pairs
         self.assertEqual(True, is_better_play(['JD', 'JS'], ['0H', '0S']))
@@ -23,11 +23,12 @@ class Test(unittest.TestCase):
         # Two triples with the same rank cannot exist hence must return False
         self.assertEqual(False, is_better_play(['8S', '8D', '8H'], ['8C', '8D', '8S']))
 
-    def test_sort_cards(self):
+    def test_sort(self):
         # Singles
-        self.assertEqual(['3D', '3C', '3H', '3S'], sort_cards(['3S', '3D', '3H', '3C']))
-        self.assertEqual(['3D', '8D', '0D', 'AD', '2S'], sort_cards(['AD', '2S', '0D', '8D', '3D']))
+        self.assertEqual(['3D', '3C', '3H', '3S'], sort(['3S', '3D', '3H', '3C']))
+        self.assertEqual(['3D', '8D', '0D', 'AD', '2S'], sort(['AD', '2S', '0D', '8D', '3D']))
 
+    def test_sort_cards(self):
         # For pair card plays
         self.assertEqual([['3D', '3S']], sort_cards([['3D', '3S']]))
         self.assertEqual([['3D', '3S'], ['2D', '2S']], sort_cards([['2D', '2S'], ['3D', '3S']]))

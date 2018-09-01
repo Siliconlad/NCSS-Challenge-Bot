@@ -120,7 +120,7 @@ def is_better_play(first, second):
     Assumptions:
     -- Assumes the cards are not 5 cards long (yet)
     '''
-    
+
     first = sort(first)
     second = sort(second)
     length_of_play = len(first)
@@ -139,6 +139,33 @@ def is_better_play(first, second):
                 return False
 
 # Functions relating to pairs of cards
+
+def sort_cards(cards):
+    '''
+    Returns a sorted list of cards.
+
+    The function accepts a list of cards (pairs or triples) of the format [[cards_1], [cards_2]] and sorts and returns the list. The sorting algorithm uses a bubble sort.
+
+    Keyword Arguements:
+    triples -- a list of card plays (pairs or triples)
+
+    Return type:
+    list of lists -- returns the sorted list
+
+    '''
+
+    is_sorted = False
+    while not is_sorted:
+        is_sorted = True
+        counter = 1
+        length_of_cards = len(cards)
+        for i in range(length_of_cards - counter):
+            if is_better_play(cards[i], cards[i+1]):
+                # Swap
+                cards[i], cards[i+1] = cards[i+1], cards[i]
+                is_sorted = False
+        counter += 1
+    return cards
 
 def is_pair(card1, card2):
     '''
@@ -159,33 +186,6 @@ def is_pair(card1, card2):
     else:
         return False
 
-def sort_pairs(pairs):
-    '''
-    Returns a sorted list of pairs.
-
-    The function accepts a list of pairs of the format [[pair_1], [pair_2]] and sorts the pairs and returns the list. The sorting algorithm uses a bubble sort.
-
-    Keyword Arguements:
-    pairs -- a list of pairs
-
-    Return type:
-    list of lists -- returns a list of all pairs in pairs but sorted
-
-    '''
-
-    is_sorted = False
-    while not is_sorted:
-        is_sorted = True
-        counter = 1
-        size_of_pairs = len(pairs)
-        for i in range(size_of_pairs - counter):
-            if is_better_play(pairs[i], pairs[i+1]):
-                # Swap
-                pairs[i], pairs[i+1] = pairs[i+1], pairs[i]
-                is_sorted = False
-        counter += 1
-    return pairs
-
 def all_pairs(hand):
     '''
     Returns a list of all possible pairs from a given hand.
@@ -203,7 +203,7 @@ def all_pairs(hand):
     for pair in itertools.combinations(hand, 2):
         if is_pair(pair[0], pair[1]):
             pairs.append(list(pair))
-    return sort_pairs(pairs)
+    return sort_cards(pairs)
 
 # Functions relating to triple cards
 
@@ -245,33 +245,6 @@ def all_triples(hand):
     for triple in itertools.combinations(hand, 3):
         if is_triple(triple[0], triple[1], triple[2]):
             triples.append(list(triple))
-    return triples
-
-def sort_triples(triples):
-    '''
-    Returns a sorted list of triples.
-
-    The function accepts a list of triples of the format [[triple_1], [triple_2]] and sorts the triples and returns the list. The sorting algorithm uses a bubble sort.
-
-    Keyword Arguements:
-    triples -- a list of triples
-
-    Return type:
-    list of lists -- returns a list of all triples but sorted
-
-    '''
-
-    is_sorted = False
-    while not is_sorted:
-        is_sorted = True
-        counter = 1
-        size_of_triples = len(triples)
-        for i in range(size_of_triples - counter):
-            if is_better_play(triples[i], triples[i+1]):
-                # Swap
-                triples[i], triples[i+1] = triples[i+1], triples[i]
-                is_sorted = False
-        counter += 1
     return triples
 
 # Functions relating to all three card variations

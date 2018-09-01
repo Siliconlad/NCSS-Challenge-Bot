@@ -27,6 +27,28 @@ def play_singles(sorted_hand, play_to_beat, round_history, hand_sizes):
     # Pass if nothing is satisfied
     return []
 
+def play_pairs(sorted_hand, play_to_beat):
+    if len(play_to_beat) != 0:
+        playable_cards = playable(sorted_hand, play_to_beat)
+    else:
+        playable_cards = all_pairs(sorted_hand)
+
+    triples = all_triples(sorted_hand)
+
+    # Play the lowest card not in triples
+    for pair in playable_cards:
+        if not_in_triple(pair, triples):
+            return pair
+    return []
+
+def play_triples(sorted_hand, play_to_beat):
+    if len(play_to_beat) != 0:
+        playable_hand = playable(sorted_hand, play_to_beat)
+    else:
+        playable_hand = all_triples(sorted_hand)
+        
+    return playable_hand[0]
+
 def play(hand, is_start_of_round, play_to_beat, round_history, player_no, hand_sizes, scores, round_no):
     # Sort the hand because all functions assume the hand is sorted
     sorted_hand = sort(hand)
@@ -55,22 +77,25 @@ def play(hand, is_start_of_round, play_to_beat, round_history, player_no, hand_s
     
     # If we are starting a trick
     elif size_of_play_to_beat == 0:
-        return play_singles(sorted_hand, play_to_beat, round_history, hand_sizes)
+        output =  play_singles(sorted_hand, play_to_beat, round_history, hand_sizes)
+
+        if output == []:
+            output = play_pairs(sorted_hand, play_to_beat)
         
+        if output == []:
+            output = play_triples(sorted_hand, play_to_beat)
+
+        return output
+
     # Rules for single cards
     elif size_of_play_to_beat == 1:
         return play_singles(sorted_hand, play_to_beat, round_history, hand_sizes)
 
     # Rules for playing doubles
     elif size_of_play_to_beat == 2:
-        # Play the lowest card not in triples
-        for pair in playable_cards:
-            if not_in_triple(pair, triples):
-                return pair
-        return []
+        return play_pairs(sorted_hand, play_to_beat)
     elif size_of_play_to_beat == 3:
-        # Play the lowest possible triple
-        return playable_cards[0]
+        return play_triples(sorted_hand, play_to_beat)
 
     else:
         return []

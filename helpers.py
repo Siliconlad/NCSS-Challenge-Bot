@@ -374,6 +374,17 @@ def playable(hand, play_to_beat):
 
 def not_in_pair(card, pairs):
     '''
+    Determines whether card is in a list of pairs.
+
+    The function takes a card value and goes through the pairs list to see if the card forms part of a pair or pairs. If it does then it returns False, if not the return True.
+
+    Keyword arguements:
+    card -- string
+    pairs -- a list of lists (a list of pairs)
+
+    Return value:
+    True -- the card is not in the pairs list
+    False -- the card is in the pairs list
     '''
 
     for pair in pairs:
@@ -384,6 +395,17 @@ def not_in_pair(card, pairs):
 
 def not_in_triple(pair, triples):
     '''
+    Determines whether a pair is part of a triple.
+
+    The function loops through a list of triples to see if a card from the pair list is used as part of a triple. If it is then the pair cannot be played because it is part of a higher value combination.
+
+    Keyword arguements:
+    pair -- a list of two cards
+    triples -- a list of lists (a list of triples)
+
+    Return value:
+    True -- the pair is not used in the list
+    False -- the pair is used in the list
     '''
     
     card = pair[0]
